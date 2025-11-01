@@ -1,0 +1,64 @@
+{
+  "customers": [
+    {
+      "CreditScore": 650,
+      "Geography": "France",
+      "Gender": "Male",
+      "Age": 35,
+      "Tenure": 3,
+      "Balance": 50000.0,
+      "NumOfProducts": 2,
+      "HasCrCard": 1,
+      "IsActiveMember": 1,
+      "EstimatedSalary": 75000.0
+    },
+    {
+      "CreditScore": 720,
+      "Geography": "Spain",
+      "Gender": "Female",
+      "Age": 28,
+      "Tenure": 5,
+      "Balance": 80000.0,
+      "NumOfProducts": 2,
+      "HasCrCard": 1,
+      "IsActiveMember": 1,
+      "EstimatedSalary": 90000.0
+    },
+    {
+      "CreditScore": 450,
+      "Geography": "Germany",
+      "Gender": "Male",
+      "Age": 55,
+      "Tenure": 2,
+      "Balance": 10000.0,
+      "NumOfProducts": 1,
+      "HasCrCard": 0,
+      "IsActiveMember": 0,
+      "EstimatedSalary": 40000.0
+    },
+    {
+      "CreditScore": 800,
+      "Geography": "France",
+      "Gender": "Female",
+      "Age": 42,
+      "Tenure": 7,
+      "Balance": 120000.0,
+      "NumOfProducts": 3,
+      "HasCrCard": 1,
+      "IsActiveMember": 1,
+      "EstimatedSalary": 110000.0
+    },
+    {
+      "CreditScore": 380,
+      "Geography": "Germany",
+      "Gender": "Male",
+      "Age": 60,
+      "Tenure": 1,
+      "Balance": 5000.0,
+      "NumOfProducts": 1,
+      "HasCrCard": 0,
+      "IsActiveMember": 0,
+      "EstimatedSalary": 25000.0
+    }
+  ]
+}

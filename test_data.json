@@ -1,0 +1,216 @@
+{
+  "test_cases": {
+    "single_prediction": {
+      "description": "Test de prédiction pour un client unique",
+      "endpoint": "POST /predict",
+      "data": {
+        "CreditScore": 650,
+        "Geography": "France",
+        "Gender": "Male",
+        "Age": 35,
+        "Tenure": 3,
+        "Balance": 50000.0,
+        "NumOfProducts": 2,
+        "HasCrCard": 1,
+        "IsActiveMember": 1,
+        "EstimatedSalary": 75000.0
+      },
+      "expected_fields": ["prediction", "probability_no_churn", "probability_churn", "confidence_level", "risk_category"]
+    },
+    
+    "high_risk_customer": {
+      "description": "Client à haut risque de churn",
+      "endpoint": "POST /predict",
+      "data": {
+        "CreditScore": 400,
+        "Geography": "Germany",
+        "Gender": "Female",
+        "Age": 65,
+        "Tenure": 1,
+        "Balance": 0.0,
+        "NumOfProducts": 1,
+        "HasCrCard": 0,
+        "IsActiveMember": 0,
+        "EstimatedSalary": 30000.0
+      }
+    },
+    
+    "low_risk_customer": {
+      "description": "Client à faible risque de churn",
+      "endpoint": "POST /predict",
+      "data": {
+        "CreditScore": 800,
+        "Geography": "Spain",
+        "Gender": "Male",
+        "Age": 30,
+        "Tenure": 8,
+        "Balance": 150000.0,
+        "NumOfProducts": 3,
+        "HasCrCard": 1,
+        "IsActiveMember": 1,
+        "EstimatedSalary": 120000.0
+      }
+    },
+    
+    "batch_prediction": {
+      "description": "Test de prédiction en lot pour plusieurs clients",
+      "endpoint": "POST /predict/batch",
+      "data": {
+        "customers": [
+          {
+            "CreditScore": 650,
+            "Geography": "France",
+            "Gender": "Male",
+            "Age": 35,
+            "Tenure": 3,
+            "Balance": 50000.0,
+            "NumOfProducts": 2,
+            "HasCrCard": 1,
+            "IsActiveMember": 1,
+            "EstimatedSalary": 75000.0
+          },
+          {
+            "CreditScore": 720,
+            "Geography": "Spain",
+            "Gender": "Female",
+            "Age": 28,
+            "Tenure": 5,
+            "Balance": 80000.0,
+            "NumOfProducts": 2,
+            "HasCrCard": 1,
+            "IsActiveMember": 1,
+            "EstimatedSalary": 90000.0
+          },
+          {
+            "CreditScore": 450,
+            "Geography": "Germany",
+            "Gender": "Male",
+            "Age": 55,
+            "Tenure": 2,
+            "Balance": 10000.0,
+            "NumOfProducts": 1,
+            "HasCrCard": 0,
+            "IsActiveMember": 0,
+            "EstimatedSalary": 40000.0
+          }
+        ]
+      }
+    }
+  },
+  
+  "curl_commands": {
+    "health_check": "curl -X GET \"http://localhost:8000/health\"",
+    "root_endpoint": "curl -X GET \"http://localhost:8000/\"",
+    "model_info": "curl -X GET \"http://localhost:8000/model/info\"",
+    "test_sample": "curl -X GET \"http://localhost:8000/test/sample\"",
+    "single_prediction": "curl -X POST \"http://localhost:8000/predict\" -H \"Content-Type: application/json\" -d '{\"CreditScore\": 650, \"Geography\": \"France\", \"Gender\": \"Male\", \"Age\": 35, \"Tenure\": 3, \"Balance\": 50000.0, \"NumOfProducts\": 2, \"HasCrCard\": 1, \"IsActiveMember\": 1, \"EstimatedSalary\": 75000.0}'",
+    "batch_prediction": "curl -X POST \"http://localhost:8000/predict/batch\" -H \"Content-Type: application/json\" -d @test_batch.json"
+  },
+  
+  "validation_rules": {
+    "CreditScore": {
+      "type": "integer",
+      "min": 300,
+      "max": 850,
+      "description": "Score de crédit du client"
+    },
+    "Geography": {
+      "type": "string",
+      "allowed_values": ["France", "Spain", "Germany"],
+      "description": "Pays de résidence"
+    },
+    "Gender": {
+      "type": "string",
+      "allowed_values": ["Male", "Female"],
+      "description": "Genre du client"
+    },
+    "Age": {
+      "type": "integer",
+      "min": 18,
+      "max": 100,
+      "description": "Âge du client"
+    },
+    "Tenure": {
+      "type": "integer",
+      "min": 0,
+      "max": 10,
+      "description": "Ancienneté en années"
+    },
+    "Balance": {
+      "type": "float",
+      "min": 0,
+      "description": "Solde du compte"
+    },
+    "NumOfProducts": {
+      "type": "integer",
+      "min": 1,
+      "max": 4,
+      "description": "Nombre de produits bancaires"
+    },
+    "HasCrCard": {
+      "type": "integer",
+      "allowed_values": [0, 1],
+      "description": "Possède une carte de crédit (0=Non, 1=Oui)"
+    },
+    "IsActiveMember": {
+      "type": "integer",
+      "allowed_values": [0, 1],
+      "description": "Membre actif (0=Non, 1=Oui)"
+    },
+    "EstimatedSalary": {
+      "type": "float",
+      "min": 0,
+      "description": "Salaire estimé"
+    }
+  },
+  
+  "response_examples": {
+    "successful_prediction": {
+      "prediction": 0,
+      "probability_no_churn": 0.85,
+      "probability_churn": 0.15,
+      "confidence_level": "Très confiant",
+      "risk_category": "Risque faible"
+    },
+    "high_risk_prediction": {
+      "prediction": 1,
+      "probability_no_churn": 0.25,
+      "probability_churn": 0.75,
+      "confidence_level": "Très confiant",
+      "risk_category": "Risque élevé"
+    },
+    "batch_response": {
+      "total_customers": 3,
+      "predictions": [
+        {
+          "customer_index": 0,
+          "prediction": 0,
+          "probability_no_churn": 0.85,
+          "probability_churn": 0.15,
+          "confidence_level": "Très confiant",
+          "risk_category": "Risque faible"
+        }
+      ],
+      "summary": {
+        "high_risk_count": 1,
+        "moderate_risk_count": 0,
+        "low_risk_count": 2
+      }
+    }
+  },
+  
+  "error_examples": {
+    "validation_error": {
+      "detail": [
+        {
+          "loc": ["body", "CreditScore"],
+          "msg": "ensure this value is greater than or equal to 300",
+          "type": "value_error.number.not_ge"
+        }
+      ]
+    },
+    "server_error": {
+      "detail": "Modèle non chargé"
+    }
+  }
+}

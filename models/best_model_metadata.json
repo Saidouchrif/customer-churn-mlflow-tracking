@@ -1,0 +1,20 @@
+{
+  "model_name": "RandomForest",
+  "strategy": "SMOTE",
+  "f1_score": 0.6300653594771242,
+  "accuracy": 0.8583583583583584,
+  "roc_auc": 0.8525551435670857,
+  "features": [
+    "CreditScore",
+    "Geography",
+    "Gender",
+    "Age",
+    "Tenure",
+    "Balance",
+    "NumOfProducts",
+    "HasCrCard",
+    "IsActiveMember",
+    "EstimatedSalary"
+  ],
+  "target": "Exited"
+}
